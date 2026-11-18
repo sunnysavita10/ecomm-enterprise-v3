@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: ecomm-enterprise-assistant
+Version: 2.0.0
+Summary: Production-oriented e-commerce RAG assistant
+Requires-Python: >=3.11
+Requires-Dist: streamlit<2,>=1.40
+Requires-Dist: fastapi<1,>=0.115
+Requires-Dist: uvicorn[standard]<1,>=0.30
+Requires-Dist: pydantic-settings<3,>=2.5
+Requires-Dist: httpx<1,>=0.27
+Requires-Dist: redis<7,>=5
+Requires-Dist: asyncpg<1,>=0.29
+Requires-Dist: sqlalchemy[asyncio]<3,>=2.0
+Requires-Dist: langgraph<2,>=0.6
+Requires-Dist: langchain-core<2,>=0.3
+Requires-Dist: langchain-openai<2,>=0.3
+Requires-Dist: langchain-astradb<2,>=0.6
+Requires-Dist: structlog<27,>=24
+Requires-Dist: python-jose[cryptography]<4,>=3.3
+Requires-Dist: prometheus-client<1,>=0.21
+Requires-Dist: opentelemetry-api<2,>=1.25
+Requires-Dist: opentelemetry-sdk<2,>=1.25
+Requires-Dist: opentelemetry-instrumentation-fastapi<1,>=0.46b0
+Requires-Dist: opentelemetry-exporter-otlp<2,>=1.25
+Requires-Dist: tenacity<10,>=8
+Requires-Dist: mcp<2,>=1.10
+Requires-Dist: celery[redis]<6,>=5.4
+Requires-Dist: langchain-groq<2,>=0.3
+Provides-Extra: observability
+Requires-Dist: langfuse<5,>=3; extra == "observability"
+Provides-Extra: eval
+Requires-Dist: ragas<1,>=0.3; extra == "eval"
+Requires-Dist: deepeval<5,>=2; extra == "eval"
+Provides-Extra: dev
+Requires-Dist: pytest<10,>=8; extra == "dev"
+Requires-Dist: pytest-asyncio<2,>=0.24; extra == "dev"
+Requires-Dist: ruff<1,>=0.8; extra == "dev"
+Requires-Dist: httpx<1,>=0.27; extra == "dev"

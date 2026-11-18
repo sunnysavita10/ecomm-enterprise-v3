@@ -24,6 +24,15 @@ curl -X POST http://localhost:8000/api/v1/chat -H 'Content-Type: application/jso
 ```
 Dev mode uses a sample catalog, does not require model API keys. For local use only; do not expose dev-auth to the Internet. The application is API-first; no production-ready React/Next.js web frontend is supplied.
 
+## Streamlit UI (no Docker, PostgreSQL, or Redis)
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -e .
+python -m streamlit run streamlit_app.py
+```
+Open `http://localhost:8501`. Catalog search and deterministic answers work without an API key. For generated answers, enter an OpenAI or Groq key in the sidebar; the UI keeps it only in the current Streamlit session.
+
 ## Bring original legacy project into the tree
 ```bash
 git clone https://github.com/sunnysavita10/ecomm-prod-assistant.git ../ecomm-prod-assistant
