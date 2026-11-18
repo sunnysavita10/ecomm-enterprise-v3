@@ -44,3 +44,5 @@ Set `ENVIRONMENT=production`, `AUTH_MODE=jwks`, `RETRIEVAL_MODE=astra`, JWT issu
 - KEDA Redis requires correctly secured `rediss://`/auth in managed environments. Deployment templates require platform review.
 
 This ZIP is a substantial implementation scaffold, not a verified turnkey production deployment.
+
+![alt text](image.png)
