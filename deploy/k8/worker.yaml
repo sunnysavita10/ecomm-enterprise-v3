@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ecomm-ingest-worker}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: ecomm-ingest-worker}}
+  template:
+    metadata: {labels: {app: ecomm-ingest-worker}}
+    spec:
+      securityContext: {runAsNonRoot: true}
+      containers:
+      - name: worker
+        image: REPLACE_WITH_IMMUTABLE_ECR_IMAGE_DIGEST
+        command: ["celery","-A","app.workers.tasks.celery_app","worker","--loglevel=INFO","--concurrency=2"]
+        envFrom:
+        - configMapRef: {name: ecomm-config}
+        - secretRef: {name: ecomm-secrets}
+        resources:
+          requests: {cpu: 200m, memory: 256Mi}
+          limits: {cpu: "1", memory: 1Gi}
+        securityContext: {allowPrivilegeEscalation: false, capabilities: {drop: [ALL]}}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata: {name: ecomm-worker-scaling}
+spec:
+  scaleTargetRef: {name: ecomm-ingest-worker}
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: redis
+    metadata:
+      addressFromEnv: KEDA_REDIS_ADDRESS
+      listName: celery
+      listLength: "5"
+# Requires KEDA CRDs/operator and injected KEDA_REDIS_ADDRESS; secured Redis may require a TriggerAuthentication.

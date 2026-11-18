@@ -1,0 +1,2 @@
+# Kubernetes deployment
+Replace `REPLACE_WITH_IMMUTABLE_ECR_IMAGE_DIGEST` in both API and worker manifests. Supply ConfigMap and secrets through a reviewed secrets operator. Apply `config.example.yaml` only after copying it to a real config without secrets. API exposes ClusterIP: install an authenticated ingress controller with TLS. HPA needs metrics-server; KEDA worker ScaledObject requires KEDA and a secured Redis trigger authentication. Do not apply all manifests blindly in production; review NetworkPolicy CNI enforcement and ingress labels.

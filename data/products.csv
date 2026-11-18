@@ -1,0 +1,4 @@
+product_id,product_title,rating,total_reviews,price,top_reviews
+P1001,Example Phone A,4.2,120,24999,"Good battery life and clean display; sample product for local testing."
+P1002,Example Laptop B,4.4,58,55999,"Comfortable keyboard and good performance; sample product for local testing."
+P1003,Example Earbuds C,4.0,230,2999,"Compact case and decent audio; sample product for local testing."

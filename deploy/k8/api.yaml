@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecomm-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: ecomm-api}
+  template:
+    metadata:
+      labels: {app: ecomm-api}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: api
+          image: REPLACE_WITH_IMMUTABLE_ECR_IMAGE_DIGEST
+          ports: [{containerPort: 8000}]
+          envFrom:
+            - configMapRef: {name: ecomm-config}
+            - secretRef: {name: ecomm-secrets}
+          resources:
+            requests: {cpu: 250m, memory: 512Mi}
+            limits: {cpu: "1", memory: 1Gi}
+          readinessProbe:
+            httpGet: {path: /api/v1/health/ready, port: 8000}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /api/v1/health/live, port: 8000}
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: ecomm-api}
+spec:
+  type: ClusterIP
+  selector: {app: ecomm-api}
+  ports: [{name: http, port: 80, targetPort: 8000}]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: {name: ecomm-api}
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: ecomm-api}
+  minReplicas: 2
+  maxReplicas: 12
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: {type: Utilization, averageUtilization: 65}

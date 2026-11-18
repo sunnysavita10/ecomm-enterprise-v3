@@ -1,0 +1,16 @@
+# Template only. Replace with real managed service endpoints in deployment environment.
+apiVersion: v1
+kind: ConfigMap
+metadata: {name: ecomm-config}
+data:
+  ENVIRONMENT: production
+  AUTH_MODE: jwks
+  RETRIEVAL_MODE: astra
+  CORS_ORIGINS: https://your-frontend.example.com
+  JWT_ISSUER: https://your-idp.example.com/
+  JWT_AUDIENCE: your-api-audience
+  JWKS_URL: https://your-idp.example.com/.well-known/jwks.json
+  OPENAI_MODEL: gpt-4o-mini
+  ASTRA_COLLECTION: ecommercedata
+# ecomm-secrets is intentionally NOT committed. Use External Secrets/Secrets Manager.
+# Include DATABASE_URL, REDIS_URL, OPENAI_API_KEY, ASTRA_DB_API_ENDPOINT, ASTRA_DB_APPLICATION_TOKEN.
